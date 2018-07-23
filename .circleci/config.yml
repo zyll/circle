@@ -46,6 +46,6 @@ workflows:
       - deploy:
           requires:
             - build
-        filters:
-          branches:
-            only: /feature-.*/
+          filters:
+            branches:
+              only: /feature-.*/
