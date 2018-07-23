@@ -24,7 +24,7 @@ jobs:
       - run: npm run ci
       - run: npm run build
       - persist_to_workspace:
-          root: workspace
+          root: dist
           paths:
             - dist
   deploy:
