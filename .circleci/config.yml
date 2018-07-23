@@ -30,7 +30,7 @@ jobs:
       - run:
          name: Deploy Over SSH
          command: |
-           DEST = $CIRCLE_BRANCH
+           export DEST = $CIRCLE_BRANCH
            scp -o StrictHostKeyChecking=no -rp dist $SSH_USER@$SSH_HOST:$PATH_TO_DIST$DEST
 workflows:
   version: 2
