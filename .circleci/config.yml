@@ -6,22 +6,16 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/node:10.1.0
-    branches:
-      -only: /feature-.*/
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
       - run: npm install
-
       - save_cache:
           paths:
             - node_modules
@@ -29,12 +23,29 @@ jobs:
 
       - run: npm run ci
       - run: npm run build
+      - persist_to_workspace:
+        root: workspace
+        paths:
+          - dist
+  build:
+    docker:
+      - image: circleci/node:10.1.0
+    steps:
+      - attach_workspace:
+         at: dist
       - run:
-         name: Deploy Over SSH to fetaure dir
-         command: |
-           scp -o StrictHostKeyChecking=no -rp dist $SSH_USER@$SSH_HOST:$PATH_TO_DIST$CIRCLE_BRANCH
+          name: Deploy Over SSH to feature dir
+          command: |
+              scp -o StrictHostKeyChecking=no -rp dist $SSH_USER@$SSH_HOST:$PATH_TO_DIST$CIRCLE_BRANCH
+
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
+      - deploy:
+        requires:
+          -build
+        filters:
+          branches:
+            only: /feature-.*/
