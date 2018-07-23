@@ -24,9 +24,9 @@ jobs:
       - run: npm run ci
       - run: npm run build
       - persist_to_workspace:
-        root: workspace
-        paths:
-          - dist
+          root: workspace
+          paths:
+            - dist
   deploy:
     docker:
       - image: circleci/node:10.1.0
