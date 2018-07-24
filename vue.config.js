@@ -1,3 +1,5 @@
+require('dotenv').config
 module.exports = {
-  lintOnSave: false
+  lintOnSave: false,
+  baseUrl: process.env.BASE_URL || '/'
 }

@@ -20,9 +20,8 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - run: npm run ci
-      - run: npm run build
+      - run: BASE_URL=$CIRCLE_BRANCH run build
       - persist_to_workspace:
           root: .
           paths:
