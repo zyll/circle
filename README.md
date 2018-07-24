@@ -1,3 +1,3 @@
 #circle
 
-should deploy only on feature-* branch
+should deploy only on feature-* branch.
