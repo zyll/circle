@@ -31,8 +31,11 @@ jobs:
     docker:
       - image: circleci/node:10.1.0
     steps:
+      branches:
+        only:
+          - /feature-.*/
       - attach_workspace:
-         at: dist
+          at: dist
       - run:
           name: Deploy Over SSH to feature dir
           command: |
@@ -46,6 +49,3 @@ workflows:
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: /feature-.*/
