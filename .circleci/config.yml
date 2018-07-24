@@ -1,4 +1,4 @@
-# Javascript Node CircleCI 2.0 configuration file
+#  Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
@@ -20,9 +20,8 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - run: npm run ci
-      - run: npm run build
+      - run: BASE_URL=$CIRCLE_BRANCH npm run build
       - persist_to_workspace:
           root: .
           paths:
@@ -36,7 +35,7 @@ jobs:
       - run:
           name: Deploy Over SSH to feature dir
           command: |
-              scp -o StrictHostKeyChecking=no -rp dist $SSH_USER@$SSH_HOST:$PATH_TO_DIST/$CIRCLE_BRANCH
+              scp -o StrictHostKeyChecking=no -rp dist/dist $SSH_USER@$SSH_HOST:$PATH_TO_DIST/$CIRCLE_BRANCH
 
 workflows:
   version: 2
